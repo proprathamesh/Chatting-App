@@ -12,13 +12,22 @@ const messageSchema = new mongoose.Schema({
         ref: 'User',
         required: true 
     },
-    content: { 
-        type: String, 
-        required: true 
+    text: {
+        type: String,
     },
-    timestamp: { 
-        type: Date, 
-        default: Date.now
+    attachments: [
+        {
+            type: String,
+        },
+    ],
+    createdAt: {
+        type: Date,
+        default: Date.now,
+    },
+    status: {
+        type: String,
+        enum: ['sent', 'delivered', 'read'],
+        default: 'sent',
     },
 });
 
