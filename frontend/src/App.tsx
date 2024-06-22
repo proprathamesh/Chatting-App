@@ -1,13 +1,15 @@
 
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import AuthPage from './components/AuthPage';
 
 function App() {
 
   return (
-    <>
-      <div className="flex items-center justify-center min-h-screen bg-gray-100">
-        <h1 className="text-3xl font-bold text-blue-600">Welcome to Chat App</h1>
-      </div>
-    </>
+      <Router>
+        <Routes>
+          <Route path="/auth" element={<AuthPage />} />
+        </Routes>
+      </Router>
   )
 }
 

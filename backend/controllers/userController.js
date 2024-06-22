@@ -1,6 +1,5 @@
 const User = require('../models/userModel');
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
 const dotenv = require('dotenv');
 
 dotenv.config();
@@ -52,11 +51,18 @@ exports.loginUser = async (req, res) => {
     const user = await User.findOne({ email });
 
     if (user && (await user.comparePassword(password))) {
+      const token = generateToken(user.id);
+      res.cookie('token', token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
+        maxAge: 3600000, // 1 hour
+      });
       res.json({
         _id: user._id,
         username: user.username,
         email: user.email,
-        token: generateToken(user._id),
+        token: token,
       });
     } else {
       res.status(401).json({ message: 'Invalid email or password' });
